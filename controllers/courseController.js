@@ -4,9 +4,9 @@ import User from "../models/userSchema.js"
 
 export const createCourseController = async (req, res) => {
     try {
-        const { title, description, instructor, thumbnail ,  lectures } = req.body;
+        const { title, description, instructor, thumbnail, lectures } = req.body;
 
-        if (!title || !description || !instructor ) {
+        if (!title || !description || !instructor) {
             return res.status(400).json({ error: "Please provide all the required details" });
         }
 
@@ -132,7 +132,7 @@ export const enrollCourseController = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        if(course.enrolledStudents.includes(req.user._id)){
+        if (course.enrolledStudents.includes(req.user._id)) {
             return res.status(400).json({ error: "User is already enrolled in this course" });
         }
 
@@ -140,29 +140,83 @@ export const enrollCourseController = async (req, res) => {
         user.enrolledCourses.push(courseId)
         await course.save()
         await user.save()
-        
+
         return res.status(200).json({ message: "Enrollment successful", course: course });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
     }
 }
 
-export const getSingleCourseController = async (req,res)=>{
+export const getSingleCourseController = async (req, res) => {
     try {
         const { courseId } = req.params
 
-        if(!courseId){
+        if (!courseId) {
             return res.status(400).json({ error: "Please provide the course ID" });
         }
 
         const course = await Course.findById(courseId)
 
-        if(!course){
+        if (!course) {
             return res.status(404).json({ error: "Course not found" });
         }
 
         return res.json({ course }).status(200)
     } catch (error) {
         console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
     }
 }
+
+
+export const getEnrolledCourses = async (req, res) => {
+    try {
+        const userId = req.user._id
+
+        if (!userId) {
+            return res.json({ error: "User Id not Provided " }).status(400)
+        }
+
+        const user = await User.findById(userId).populate('enrolledCourses')
+
+        if (!user) {
+            return res.json({ error: "User not Found " }).status(400)
+        }
+
+        return res.json({ courses: user.enrolledCourses }).status(200)
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+
+export const searchCoursesController = async (req, res) => {
+    try {
+        const { searchQuery, sortBy } = req.query;
+
+        let sortOptions = {}
+
+        if (sortBy == "date") {
+            sortOptions = { createdAt: -1 }
+        }
+
+        const searchCriteria = {
+            $or: [
+                { title: { $regex: searchQuery || '', $options: 'i' } },
+                { description: { $regex: searchQuery || '', $options: 'i' } },
+            ]
+        }
+
+        const courses = await Course.find(searchCriteria)
+            .sort(sortOptions)
+            .exec()
+
+        return res.json({ courses })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}
+

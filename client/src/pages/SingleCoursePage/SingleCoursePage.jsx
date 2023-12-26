@@ -67,7 +67,9 @@ const SingleCoursePage = () => {
         <h2 className="text-xl font-semibold mb-4">Lectures</h2>
         <ul>
           {lectures.map((lecture, index) => (
-            <li key={lecture._id} className="mb-2 cursor-pointer hover:bg-gray-200 p-4 rounded-md">
+            <li key={lecture._id} className={`mb-2 cursor-pointer p-4 rounded-md ${
+              selectedLecture?._id === lecture._id ? 'bg-gray-300' : 'hover:bg-gray-200'
+            }`}>
               <span onClick={() => handleLectureClick(lecture)}>
                 <span className="font-semibold mr-2">{index + 1}.</span>
                 {lecture.title}

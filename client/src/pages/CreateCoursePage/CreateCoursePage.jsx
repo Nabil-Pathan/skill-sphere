@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast"
 import { app } from "../../firebase"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import FileLoader from "../../components/FileLoader/FileLoader"
 
 const CreateCoursePage = () => {
   const { user } = useUserContext()
@@ -83,10 +83,10 @@ const CreateCoursePage = () => {
   }, [file])
 
   return (
-    <div className="h-screen w-full flex items-center justify-center">
-      <div className="md:w-[50%] sm:w-full h-screen  ">
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h2 className="md:text-4xl sm:text-3xl font-bold mb-6">Create a New Course</h2>
+    <div className="md:min-h-screen w-full flex items-center justify-center">
+      <div className="md:w-[40%] w-full  ">
+        <form onSubmit={handleSubmit} className="bg-white custom-shadow  px-8 pt-6 pb-8 rounded-lg">
+          <h2 className="md:text-4xl text-2xl font-bold mb-6">Create a New Course</h2>
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
               Title
@@ -139,12 +139,12 @@ const CreateCoursePage = () => {
               ''
             )}
 
+          </div>
             {
               fileUploading && (
-                <p>Uploading...</p>
+               <FileLoader/>
               )
             }
-          </div>
           <div className="flex items-center justify-between">
             <button
               type="submit"

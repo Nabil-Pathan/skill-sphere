@@ -6,6 +6,7 @@ import { app } from "../../firebase"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import FileLoader from "../../components/FileLoader/FileLoader"
 
 
 const AddLecturesPage = () => {
@@ -63,6 +64,7 @@ const AddLecturesPage = () => {
     const uploadTask = uploadBytesResumable(storageRef, file)
 
     uploadTask.on('state_changed', (snapshot) => {
+        setFileUploading(true)
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         console.log(progress);
         setFilePer(Math.round(progress))
@@ -87,10 +89,10 @@ const AddLecturesPage = () => {
     }
   },[file])
   return (
-    <div className="h-screen w-full flex items-center justify-center">
-      <div className="md:w-[50%] sm:w-full h-screen">
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h2 className="md:text-4xl sm:text-3xl font-bold mb-6">Add Lectures to Your Course</h2>
+    <div className="md:min-h-screen w-full flex items-center justify-center">
+      <div className="md:w-[40%] w-full ">
+        <form onSubmit={handleSubmit} className="bg-white p-4 custom-shadow rounded-lg px-8 pt-6 pb-8 mb-4">
+          <h2 className="md:text-4xl text-3xl font-bold mb-6">Add Lectures </h2>
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">
               Lecture Title
@@ -127,13 +129,11 @@ const AddLecturesPage = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Video URL"
             />
-          </div>
 
-          {
-                fileUploading && (
-                    <p className='text-xl font-bold'>Uploading...</p>
-                )
-            }
+          </div>
+            { fileUploading && (<FileLoader/>)}
+
+          
           <div className="flex items-center justify-between">
             <button
               type="submit"

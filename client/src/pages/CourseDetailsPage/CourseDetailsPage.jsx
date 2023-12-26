@@ -4,15 +4,18 @@ import axios from 'axios';
 import { useUserContext } from '../../context/UserContext';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import Loader from "../../components/Loader/Loader"
 
 const CourseDetailsPage = () => {
   const { user, setUser } = useUserContext();
   const params = useParams();
   const [course, setCourse] = useState();
   const [enrolled, setEnrolled] = useState(false);
+  const [loading , setLoading] = useState(false)
 
   useEffect(() => {
     const fetchCourse = async () => {
+      setLoading(true)
       try {
         const config = {
           headers: {
@@ -26,9 +29,10 @@ const CourseDetailsPage = () => {
           setEnrolled(true)
         }
         setCourse(data.course);
-       
+        setLoading(false)
       } catch (error) {
         console.log(error);
+        setLoading(false)
       }
     };
 
@@ -63,19 +67,20 @@ const CourseDetailsPage = () => {
   };
 
 
-  useEffect(()=>{
-    console.log("Updated User : ",user);
-  },[user])
+
 
   return (
-    <div className="h-screen p-8 bg-gray-100">
+    <>
+    {
+      loading ? (<Loader/>) : (
+        <div className="md:min-h-screen p-4 bg-gray-100">
       {course && (
-        <div className="max-w-2xl mx-auto bg-white p-8 rounded-md shadow-md">
-          <img src={course.thumbnail} alt={course.title} className="w-full h-[400px] mb-4" />
+        <div className="md:max-w-xl w-full mx-auto bg-white p-3 custom-shadow-1  rounded-md ">
+          <img src={course.thumbnail} alt={course.title} className="md:w-full md:h-[400px] h-300px mb-4" />
           <h1 className="text-3xl font-semibold mb-2">{course.title}</h1>
           <p className="text-gray-600 mb-4">{course.description}</p>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between p-3">
             <p className="text-lg font-semibold text-green-600">Free</p>
             {!enrolled ? (
               <button
@@ -86,17 +91,28 @@ const CourseDetailsPage = () => {
               </button>
             ): (
               <>
-               <button className="bg-green-600 px-4 py-3 rounded-md hover:bg-green-500 text-white font-bold">
-               <Link to={`/course/${course._id}`}>
-                 Go To Course  <i className="fas fa-arrow-right ml-2 font-extrabold" ></i>
-               </Link>
-               </button>
+           <div className='flex items-center justify-end p-3'>
+        <Link to={`/course/${course._id}`}>
+          <button className='bg-green-600 flex items-center px-4 py-3 rounded-md text-white font-bold hover:bg-green-500'>
+            Continue Learning
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7  ml-2">
+  <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
+          </button>
+        </Link>
+      </div>
               </>
             )}
           </div>
         </div>
       )}
     </div>
+      )
+    }
+    
+
+    </>
   );
 };
 

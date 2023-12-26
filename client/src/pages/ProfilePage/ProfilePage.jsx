@@ -105,8 +105,7 @@ const ProfilePage = () => {
       loading ? (<Loader/>) : (
         userProfile && (
           <div className='p-3 max-w-lg mx-auto'>
-        <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-  
+            <h1 className="text-center text-3xl font-bold">{userProfile.username}</h1>
         <form 
         onSubmit={handleSubmit}
          className='flex flex-col gap-4'>
@@ -160,10 +159,19 @@ const ProfilePage = () => {
             className='border p-3 rounded-lg'
           />
           <button
-            className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'
+            className='bg-slate-700 font-semibold text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'
           >
             Update
           </button>
+         
+
+          
+         
+        </form>
+  
+  
+        <div className="">
+          <div className='flex justify-between mt-5'>
           {
              userProfile.role === "instructor" && (
                   <Link
@@ -174,23 +182,12 @@ const ProfilePage = () => {
                 </Link>
               )
           }
-         
-        </form>
-  
-  
-        <div className="">
-          <div className='flex justify-between mt-5'>
-            <span
-              // onClick={handleDeleteUser}
-              className='text-red-700 cursor-pointer'
-            >
-              Delete account
-            </span>
-            <span className='text-red-700 cursor-pointer'
-          //   onClick={handleSignoutUser}
-            >
-              Sign out
-            </span>
+          
+           <Link to='/my-learning'>
+           <button className="bg-gray-800 text-white hover:bg-gray-700 font-semibold rounded-md  px-4 py-3">
+            My Learning
+          </button>
+           </Link>
           </div>
         </div>
   
