@@ -17,6 +17,7 @@ const CourseDetailsPage = () => {
     const fetchCourse = async () => {
       setLoading(true)
       try {
+        console.log(user.user._id);
         const config = {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -24,9 +25,11 @@ const CourseDetailsPage = () => {
         };
 
         const { data } = await axios.get(`/api/course/get/${params.id}`, config);
-      
+        console.log(data.course.enrolledStudents);      
         if(data.course.enrolledStudents.includes(user.user._id)){
           setEnrolled(true)
+        }else{
+          setEnrolled(false)
         }
         setCourse(data.course);
         setLoading(false)

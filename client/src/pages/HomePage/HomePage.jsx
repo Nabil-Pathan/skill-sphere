@@ -60,13 +60,13 @@ const HomePage = () => {
       ) : (
         <div className="  md:min-h-screen flex flex-col items-center justify-center">
           {/* Top Section */}
-          <div className=' home-banner w-full h-[500px]'>
+          <div className=' home-banner w-full h-[450px]'>
           
           <div className=" flex h-full flex-col items-center justify-center text-white">
           <h1 className="text-3xl md:text-6xl font-extrabold mb-4 text-center">
               Discover a  World  of <span className='text-green-600'> Knowledge</span>  
             </h1>
-            <div className="relative w-[70%] md:w-[500px] mt-4 text-center">
+            <div className="relative w-[70%]  md:w-[500px] mt-4 text-center">
               {/* Search bar with search icon */}
               <input
                 type="text"
@@ -81,7 +81,7 @@ const HomePage = () => {
           </div>
 
           {/* Courses Section */}
-          <div className="mt-8 p-6 mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="mt-8 md:p-6  mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {courses.length >= 1 ? (
               courses.map((course) => (
                 <CourseCard key={course._id} course={course} />

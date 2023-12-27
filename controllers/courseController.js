@@ -49,7 +49,7 @@ export const updateCourseController = async (req, res) => {
         const { courseId } = req.params
         const { title, description, lectures } = req.body
 
-        if (!courseId || !title || !description || !lectures || lectures.length === 0) {
+        if (!courseId || !title || !description ) {
             return res.status(400).json({ error: "Please provide all the required details" });
         }
 
@@ -220,3 +220,53 @@ export const searchCoursesController = async (req, res) => {
     }
 }
 
+export const unEnrollCourseController = async (req, res) => {
+
+    try {
+        const { courseId } = req.params
+
+        if (!courseId) {
+            return res.status(400).json({ error: "Please provide the course ID" });
+        }
+
+        const course = await Course.findById(courseId);
+
+        if (!course) {
+            return res.status(404).json({ error: "Course not found" });
+        }
+
+        const user = await User.findById(req.user._id)
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        if (!course.enrolledStudents.includes(req.user._id)) {
+            return res.status(400).json({ error: "User is not enrolled in this course" });
+        }
+
+        course.enrolledStudents = course.enrolledStudents.filter((id)=> id.toString() !== req.user._id.toString())
+        user.enrolledCourses = user.enrolledCourses.filter((id) => id.toString() !== courseId.toString() )
+
+        await course.save()
+        await user.save()
+
+        return res.status(200).json({ message: "UnEnrollment successful", course: course });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+export const getAllCoursesByUser = async (req,res)=>{
+    try {
+        const userId = req.user._id
+
+        const courses = await Course.find({ instructor : userId})
+
+        res.status(200).json({courses})
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" })
+    }
+}

@@ -12,6 +12,7 @@ const Header = () => {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  const [ isInstructor , setIsInstructor] = useState(false)
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
@@ -26,6 +27,16 @@ const Header = () => {
     navigate('/')
   }
 
+  // useEffect(()=>{
+  //   if(user.user.role === "instructor"){
+  //     setIsInstructor(true)
+  //   }
+
+  //   else{
+  //      setIsInstructor(false)
+  //     }
+  // },[user])
+
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -38,7 +49,7 @@ Skill Sphere
         </Link>
 
         {
-          user ? (
+          user && user.user ? (
         <div
         className="md:flex hidden items-center justify-center  md:space-x-4   md:flex-row "
       >
@@ -48,6 +59,17 @@ Skill Sphere
         >
           Home
         </Link>
+
+        {
+          user && user.user.role === "instructor" && (
+            <Link
+            to="/my-courses"
+            className="text-white hover:bg-gray-700 px-4 py-2 rounded-md font-semibold hover:text-gray-300 block md:inline-block"
+          >
+            My Courses
+          </Link>
+          )
+        }
         
         <Link
           to="/contact"
@@ -63,6 +85,8 @@ Skill Sphere
         >
           Profile
         </Link>
+
+        
 
      
         <button onClick={handleLogout} className="py-3 px-4 hover:bg-green-500 bg-green-600 text-white font-bold">Logout</button>
@@ -136,7 +160,7 @@ Skill Sphere
         <>
 
         {
-          user ? (
+          user && user.user ? (
             <div
             className={`md:hidden  mt-5 flex  flex-col items-center gap-7 `}
           >
@@ -197,6 +221,3 @@ Skill Sphere
 };
 
 export default Header;
-
-
-

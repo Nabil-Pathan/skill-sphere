@@ -16,6 +16,7 @@ import SingleCoursePage from './pages/SingleCoursePage/SingleCoursePage'
 import PublicRoute from './components/Routes/PublicRoute'
 import PrivateRoute from './components/Routes/PrivateRoute'
 import MyLearning from './pages/MyLearning/MyLearning'
+import UserCourses from './pages/UserCourses/UserCourses'
 
 
 const App = () => {
@@ -41,6 +42,7 @@ const App = () => {
         <Route path='/profile' element={<PrivateRoute element={<ProfilePage/>}/>}/>
         <Route path='/my-learning' element={<PrivateRoute element={<MyLearning/>}/>}/>
         <Route path='/create-course' element={<PrivateRoute element={<CreateCoursePage/>}/>} />
+        <Route path='/my-courses' element={<PrivateRoute element={<UserCourses/>}/>} />
         <Route path='/course-details/:id' element={<PrivateRoute element={<CourseDetailsPage/>}/>} />
         <Route path='/add-lectures/:id' element={<PrivateRoute element={<AddLecturesPage/>}/>} />
         <Route path='/course/:id' element={<PrivateRoute element={<SingleCoursePage/>}/>} />

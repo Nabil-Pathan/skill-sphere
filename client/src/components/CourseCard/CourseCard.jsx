@@ -9,13 +9,13 @@ const CourseCard = ({course}) => {
   const { user , setUser } = useUserContext()
 
   return (
-    <div className='bg-white custom-shadow hover:shadow-lg hover:cursor-pointer transition-shadow overflow-hidden rounded-lg md:w-full w-[350px] mx-auto'>
+    <div className='bg-white flex flex-col items-center justify-center custom-shadow hover:shadow-lg hover:cursor-pointer transition-shadow overflow-hidden rounded-lg md:w-full w-[350px] mx-auto'>
       <img
         src={
           course.thumbnail 
         }
         alt='course cover'
-        className='w-full object-contain hover:scale-105 transition-scale duration-300'
+        className='w-full  h-[300px] object-cover hover:scale-105 transition-scale duration-300 block'
       />
       <div className='p-3 flex flex-col gap-2 w-full'>
         <p className='truncate text-lg font-semibold text-slate-700'>
