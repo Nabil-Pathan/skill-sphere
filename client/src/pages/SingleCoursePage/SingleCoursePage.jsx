@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
+import Loader from "../../components/Loader/Loader"
 
 const SingleCoursePage = () => {
   const { user } = useUserContext();
@@ -58,7 +59,7 @@ const SingleCoursePage = () => {
             <p className="text-xl text-gray-600 mt-3">{selectedLecture.description}</p>
           </div>
         ) : (
-          <p className="text-gray-600">Select a lecture from the right section to start learning.</p>
+          <Loader/>
         )}
       </div>
 

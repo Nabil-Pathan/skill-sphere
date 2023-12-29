@@ -3,7 +3,7 @@ import axios from "axios"
 import { useUserContext } from "../../context/UserContext"
 import { toast } from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
-
+import './DeleteCourseModal.css'
 
 const DeleteCourseModal = ({ setDeleteModal, courseId, fetchUserCourses }) => {
 
@@ -29,7 +29,7 @@ const DeleteCourseModal = ({ setDeleteModal, courseId, fetchUserCourses }) => {
     }
     return (
         <>
-            <div className="text-black modal-wrapper">
+            <div className="text-black modal-wrapper ">
                 <div className="modal-container">
                     <button className="absolute text-3xl top-3 right-3 px-2 py-1 rounded-md  text-gray-700 bg-gray-300 hover:bg-gray-200 hover:text-gray-600 " onClick={() => setDeleteModal(false)}>X</button>
 
@@ -39,9 +39,11 @@ const DeleteCourseModal = ({ setDeleteModal, courseId, fetchUserCourses }) => {
                         </svg>
                     </div>
 
-                    <h2 className="text-2xl mt-2 font-bold ">Are Your Sure You Want to Delete the Course</h2>
+                    <h2 className="text-2xl mt-3 font-bold  ">Are Your Sure You Want to Delete the Course ?</h2>
+                    <div className="flex mt-1 items-center justify-around">
                     <button className="mt-4 bg-red-700 rounded-md hover:bg-red-500 font-bold text-white p-3" onClick={handleDeletePost}>Delete</button>
                     <button className="mt-4 bg-gray-300 hover:bg-gray-500 font-bold  p-3 rounded-md shadow-lg  " onClick={() => setDeleteModal(false)}>Cancel</button>
+                    </div>
                 </div>
             </div>
         </>

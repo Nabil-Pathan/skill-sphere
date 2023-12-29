@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
+import "./UpdateLectureModal.css"
 import axios from 'axios';
 import {  toast } from "react-hot-toast"
 import { useUserContext } from "../../context/UserContext"
-import "./UpdateCourseModal.css"
 
-const UpdateCourseModal = ({courseId , setUpdateModal , title , description , fetchUserCourses }) => {
+const UpdateLectureModal = ({courseId , lectureId, setUpdateModal , title , description , fetchCourse }) => {
 
 
   const [newTitle, setNewTitle] = useState(title);
   const [newDescription, setNewDescription] = useState(description);
 
   const { user } = useUserContext()
-
-
-  const handleUpdateCourse = async () => {
+  const handleUpdateLecture = async () => {
 
     try {
    
@@ -29,12 +27,15 @@ const UpdateCourseModal = ({courseId , setUpdateModal , title , description , fe
       // Add other fields if needed
     };
 
-    const { data } = await axios.put(`/api/course/update/${courseId}`, updatedData , config)
 
-    const updatedCourse = data.course
+    console.log(updatedData);
+
+    const { data } = await axios.put(`/api/lecture/update/${courseId}/${lectureId}`, updatedData , config)
+
+    const updatedLecture = data.updatedLecture
     setUpdateModal(false);
-    toast.success('Course Updated')
-    fetchUserCourses()
+    fetchCourse()
+    toast.success('Lecture Updated')
   } catch (error) {
      console.log(error.message);   
   }
@@ -49,12 +50,12 @@ const UpdateCourseModal = ({courseId , setUpdateModal , title , description , fe
      value={newTitle}
      onChange={(e)=> setNewTitle(e.target.value)}
     />
-    <label className="text-xl font-bold mb-2">Description</label>
+    <label className="text-xl font-bold mb-2">Content</label>
     <textarea className="border border-gray-500 rounded-md px-3 py-2 mb-4 h-20"
     value={newDescription}
     onChange={(e)=> setNewDescription(e.target.value)}
     ></textarea>
-    <button  className="bg-green-700 hover:bg-green-500 text-white font-bold py-2 rounded-md mb-2" onClick={handleUpdateCourse}>
+    <button className="bg-green-700 hover:bg-green-500 text-white font-bold py-2 rounded-md mb-2" onClick={handleUpdateLecture}>
       Update
     </button>
     <button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 rounded-md shadow-lg" onClick={()=> setUpdateModal(false)}>
@@ -67,4 +68,4 @@ const UpdateCourseModal = ({courseId , setUpdateModal , title , description , fe
   )
 }
 
-export default UpdateCourseModal
+export default UpdateLectureModal

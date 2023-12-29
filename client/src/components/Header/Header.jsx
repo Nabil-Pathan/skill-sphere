@@ -171,6 +171,21 @@ Skill Sphere
             >
               Home
             </Link>
+
+            {
+              user && user.user.role === "instructor" && (
+                <Link
+                to="/my-courses"
+                className="text-white hover:bg-gray-700 w-full font-semibold text-center py-2 rounded-md hover:text-gray-300 block md:inline-block"
+                onClick={toggleNav}
+              >
+                My Courses
+              </Link>
+  
+              )
+            }
+           
+
             <Link
               to="/contact"
               className="text-white hover:bg-gray-700 w-full font-semibold text-center py-2 rounded-md hover:text-gray-300 block md:inline-block"

@@ -156,7 +156,7 @@ export const getSingleCourseController = async (req, res) => {
             return res.status(400).json({ error: "Please provide the course ID" });
         }
 
-        const course = await Course.findById(courseId)
+        const course = await Course.findById(courseId).populate("lectures")
 
         if (!course) {
             return res.status(404).json({ error: "Course not found" });

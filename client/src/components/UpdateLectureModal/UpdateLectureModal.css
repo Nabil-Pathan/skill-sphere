@@ -13,7 +13,7 @@
      top: 50%;
      left: 50%;
      transform: translate(-50% , -50%);
-     width: 40rem;
+     width: 50rem;
      position: fixed;
      padding: 3rem 3rem;
      border-radius: 0.5rem;
@@ -27,7 +27,7 @@
          width: 100%;
      }
  .modal-container{
-    top: 35%;
+    top: 30%;
      width: 100%;
  }
  
